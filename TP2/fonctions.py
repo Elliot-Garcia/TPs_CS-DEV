@@ -82,6 +82,25 @@ def verification_lettre_dans_mot(mot, lettre):
 
 
 
+def lettre_dite(liste_lettre_dites, lettre):
+    """
+    But : vérifier si la lettre n'est pas dans la liste des lettres déjà dites
+            si non, ajouter la lettre dite à la liste
+    Entrée : liste des lettres déjà dites
+            lettre rentrée au dernier tour (str)
+    Sortie : Booléen (True si déjà dite, False sinon)
+            et liste des lettres déjà dites actualisé
+    """
+    
+    if lettre in liste_lettre_dites:
+        return [True, liste_lettre_dites]
+    
+    else:
+        liste_lettre_dites.append(lettre)
+        return [False, liste_lettre_dites]
+
+
+
 def actualiser_affichage_mot(affichage, lettre, position_lettre):
     """
     But : Remplacer les '_' par la lettre correspondante
