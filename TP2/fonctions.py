@@ -12,18 +12,21 @@ import random as rd
 #Détermination du nombre de mots dans 'mots.txt'
 def initialisation_list_mots(noms_fichier):
     """
-    But : 
+    But : Initialiser la liste de mots d'un fichier
+    Entrée : le nom de fichier .txt
+    Sortie : Le nombre de mots dans le fichier
     """
-    
     
     f = open('mots.txt','r')
     mots = f.readlines()
     nb_mots = len(mots)
     f.close()
+    
+    return nb_mots
 
 
 
-def determination_mot():
+def determination_mot(nb_mots):
     """
     But : Choisir aléatoirement un mot dans 'mots.txt'
     Entrée : Rien

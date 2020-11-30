@@ -12,14 +12,15 @@ import fonctions as fct
 def jouer_au_pendu(listes_de_mots):
     """
     But : Programme principal qui va simuler dans la console un jeu du pendu
-    Entrée : Rien
+    Entrée : Le nom du fichier où est la liste de mot .txt
     Sortie : 'Gagné' ou 'Perdu' (str) -> le résultat de la partie
     """
     
     chances = 8 #On définie le nombre d'erreur autorisé
     victoire = False #True si le joueur gagne
     
-    mot = fct.determination_mot()
+    nb_mots = fct.initialisation_list_mots(listes_de_mots)
+    mot = fct.determination_mot(nb_mots)
     
     affichage = fct.initialisation_affichage_mot(mot)
     
