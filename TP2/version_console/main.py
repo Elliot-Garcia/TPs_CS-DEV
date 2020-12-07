@@ -7,7 +7,8 @@ Header:
     Par Elliot GARCIA (Gr C)
 """
 
-import fonctions as fct
+import fonctions_jeu_console as fct
+
 
 def jouer_au_pendu(listes_de_mots):
     """
