@@ -191,3 +191,17 @@ def verification_victoire(affichage):
             return False
     
     return True
+
+def sauvegarde(pseudo,score):
+    """
+    But : Enregistrer dans le fichier 'score.txt' le pseudo et le score du joueur
+    Entrée : le pseudo (str) et le score (int)
+    Sortie : Rien
+    """
+    
+    score = str(score)
+    
+    f = open('data/scores/score.txt','a')
+    
+    f.write(pseudo+'*'+score+'\n')
+    f.close()
