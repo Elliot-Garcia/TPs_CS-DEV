@@ -44,12 +44,12 @@ class ennemi:
             min_x_groupe = min(groupe_x)
             max_x_groupe = max(groupe_x)
             
-            if min_x_groupe < 20:
-                #self.deplacement_vertical()
+            if min_x_groupe < 20 and self.dx != int(2):
+                self.deplacement_vertical()
                 self.dx = int(2)
             
-            elif max_x_groupe > 560:
-                #self.deplacement_vertical()
+            elif max_x_groupe > 560 and self.dx != int(-2):
+                self.deplacement_vertical()
                 self.dx = int(-2)
                 
             self.canvas.move(self.ennemi,self.dx,dy)
