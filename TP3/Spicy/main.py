@@ -49,15 +49,23 @@ canvas_jeu.grid(row=1, column=1, rowspan=3,sticky="W")
 
 
 
+"""Initialisation des éléments dynamiques du jeu
+---------------------------------------------------------------------------"""
+j = jeu.jeu(app_jeu, canvas_jeu)
+
+"""------------------------------------------------------------------------"""
+
+
+
 """Création des éléments hors de la zone de jeu
 ---------------------------------------------------------------------------"""
 #Initialisation du score et Création affichage du score
-score = IntVar()
-aff_score = Label(app_jeu, textvariable = score)
+
+aff_score = Label(app_jeu, textvariable = j.score)
 aff_score.grid(row=1, column=2)
 
 #Création du bouton quitter
-jouer = Button(app_jeu, text = "Jouer", command = jeu.jeu)
+jouer = Button(app_jeu, text = "Jouer", command = j.lancer_partie)
 jouer.grid(row=2, column=2)
 
 #Création du bouton quitter
@@ -76,13 +84,6 @@ canvas_jeu.bind("<KeyPress>", clavier)
 
 """------------------------------------------------------------------------"""
 
-
-
-"""Initialisation des éléments dynamiques du jeu
----------------------------------------------------------------------------"""
-j = jeu.jeu(app_jeu, canvas_jeu)
-
-"""------------------------------------------------------------------------"""
 
 
 

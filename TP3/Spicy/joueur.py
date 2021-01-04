@@ -17,7 +17,6 @@ class joueur:
         self.Y = 520
         self.camp = 'gentil'
         self.direction_tire = "N"
-        self.score = 0
         
         self.cooldown = 0.5
         

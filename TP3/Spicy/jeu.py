@@ -6,7 +6,7 @@ Header:
     Par Elliot GARCIA (Gr C)
 """
 
-from tkinter import PhotoImage
+from tkinter import PhotoImage, IntVar
 import random as rd
 import time as tps
 
@@ -29,13 +29,21 @@ class jeu:
         self.P = j.joueur(self) #Création de l'avatar du joueur
         self.tps_dernier_tire = 0 #Initialisation de son cooldown
         
-        self.niveau = 1
-        fct.generation_niveau(fct.lecture_niveau(self.niveau), self)
+        self.niveau = 0
+        self.score = IntVar()
         
-        for ennemi in self.groupe_ennemis:
-            ennemi.deplacement_horizontal()
-        self.tire_ennemis()
+        self.score.set(0)
+        
 
+    def lancer_partie(self):
+        if len(self.groupe_ennemis) == 0:
+            self.niveau += 1
+            
+            fct.generation_niveau(fct.lecture_niveau(self.niveau), self)
+            
+            for ennemi in self.groupe_ennemis:
+                ennemi.deplacement_horizontal()
+            self.tire_ennemis()
             
     def controle_joueur(self, touche):
         
@@ -71,7 +79,7 @@ class jeu:
                         self.canvas.delete(self.app_jeu, ennemi.ennemi)
                         self.canvas.delete(self.app_jeu, projectile.tire)
                         self.groupe_ennemis.remove(ennemi)
-                        self.P.score += ennemi.score
+                        self.score.set(self.score.get() + ennemi.score)
                 # for proj in self.groupe_projectile_mechant:
                 #     if proj.tire == canvas_id:
                 #         p.delete(proj)
