@@ -6,12 +6,13 @@ Header:
     Par Elliot GARCIA (Gr C)
 """
 
-from tkinter import PhotoImage, IntVar
+from tkinter import Canvas, PhotoImage, IntVar, StringVar, Label, Button
 import random as rd
 import time as tps
 
 import joueur as j
 import projectile as p
+import marchand as m
 
 import fonctions as fct
 
@@ -22,6 +23,7 @@ class jeu:
     def __init__(self, app_jeu, canvas):
         self.app_jeu = app_jeu
         self.canvas = canvas
+        
         self.groupe_ennemis = []
         # self.groupe_projectile_mechant = []
         # self.groupe_projectile_gentil = []
@@ -33,12 +35,19 @@ class jeu:
         
         self.score = IntVar()
         self.score.set(0)
-        self.argent = IntVar()
-        self.argent.set(0)
+        self.txt_argent = StringVar()
+        self.argent = 0
+        self.txt_argent.set(str(self.argent) + " $€")
         
-
+        self.M = m.marchand(self)
+        self.victoire = False
+        
+        
     def lancer_niveau(self):
         if len(self.groupe_ennemis) == 0:
+            
+            self.M.frame_marchand.grid_forget()
+            
             self.niveau += 1
             
             fct.generation_niveau(fct.lecture_niveau(self.niveau), self)
@@ -82,6 +91,8 @@ class jeu:
                         self.canvas.delete(self.app_jeu, projectile.tire)
                         self.groupe_ennemis.remove(ennemi)
                         self.score.set(self.score.get() + ennemi.score)
+                        self.argent = self.argent + ennemi.score
+                        self.txt_argent.set(str(self.argent) + " $€")
                 # for proj in self.groupe_projectile_mechant:
                 #     if proj.tire == canvas_id:
                 #         p.delete(proj)
@@ -95,10 +106,12 @@ class jeu:
         #                 self.canvas.delete(self.app_jeu, ennemi.ennemi)
         #                 self.canvas.delete(self.app_jeu, projectile.tire)
         
-    #     self.victoire()
+        if len(self.groupe_ennemis) == 0:
+            self.victoire = True
+            self.affichage_victoire()
     
-    # def victoire(self):
+    
+    def affichage_victoire(self):
         
-    #     if len(self.groupe_ennemis) <= 0:
-    #         self.niveau += 1
-    #         jeu(self.app_jeu, self.canvas)
+        if self.victoire == True:
+            self.M.frame_marchand.grid(row=1, column=1, rowspan=10)

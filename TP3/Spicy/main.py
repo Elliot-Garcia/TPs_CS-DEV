@@ -86,7 +86,7 @@ aff_score.grid(row=2, column=3)
 
 label_argent = Label(app_jeu, fg="white", bg = "black", text = "Spicy-cash : ")
 label_argent.grid(row=3, column=2)
-aff_argent = Label(app_jeu, fg="white", bg = "black", textvariable = j.argent)
+aff_argent = Label(app_jeu, fg="white", bg = "black", textvariable = j.txt_argent)
 aff_argent.grid(row=3, column=3)
 
 #Création du bouton jouer
@@ -108,7 +108,6 @@ canvas_jeu.focus_set()
 canvas_jeu.bind("<KeyPress>", clavier)
 
 """------------------------------------------------------------------------"""
-
 
 
 
