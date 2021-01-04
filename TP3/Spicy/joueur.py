@@ -31,5 +31,3 @@ class joueur:
         if self.X <= 565:
             self.canvas.move(self.spicy,int(10),0)
             self.X += 10
-            
-    

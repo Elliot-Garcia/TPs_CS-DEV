@@ -14,6 +14,20 @@ from tkinter import Tk, Label, Button, Canvas, IntVar
 import jeu as jeu
 
 
+"""Fonction de lancement de la partie
+---------------------------------------------------------------------------"""       
+def lancer_partie():
+    """
+    But : Lancer la partie en affichant le premier niveau et en enlevant le bouton "Commencer la partie"
+    Entrée :
+    Sortie :
+    """
+    bouton_jouer.grid_forget()
+    j.lancer_niveau()
+
+"""------------------------------------------------------------------------"""
+
+
 
 """Fonction de contrôle de l'avatar en fonction des touches saisies par le joueur
 ---------------------------------------------------------------------------"""       
@@ -43,7 +57,7 @@ app_jeu.attributes('-topmost', 1)
 
 #Création de la zone de jeu
 canvas_jeu = Canvas(app_jeu, width=580, height=580, bg="blue", bd=0)
-canvas_jeu.grid(row=1, column=1, rowspan=3,sticky="W")
+canvas_jeu.grid(row=1, column=1, rowspan=10,sticky="W")
 
 """------------------------------------------------------------------------"""
 
@@ -59,18 +73,29 @@ j = jeu.jeu(app_jeu, canvas_jeu)
 
 """Création des éléments hors de la zone de jeu
 ---------------------------------------------------------------------------"""
-#Initialisation du score et Création affichage du score
+#Création de la zone hors du jeu
+canvas_menu = Canvas(app_jeu, width=240, height=580, bg="black", bd=0)
+canvas_menu.grid(row=1, column=2, rowspan=10, columnspan=3, sticky="W")
 
-aff_score = Label(app_jeu, textvariable = j.score)
-aff_score.grid(row=1, column=2)
+#Initialisation du score/argent et Création affichage du score/argent
+
+label_score = Label(app_jeu, fg="white", bg = "black", text = "Votre score est de :")
+label_score.grid(row=2, column=2)
+aff_score = Label(app_jeu, fg="white", bg = "black", textvariable = j.score)
+aff_score.grid(row=2, column=3)
+
+label_argent = Label(app_jeu, fg="white", bg = "black", text = "Spicy-cash : ")
+label_argent.grid(row=3, column=2)
+aff_argent = Label(app_jeu, fg="white", bg = "black", textvariable = j.argent)
+aff_argent.grid(row=3, column=3)
+
+#Création du bouton jouer
+bouton_jouer = Button(app_jeu, anchor="center", fg="white", bg = "black", text = "Commencer la partie", command = lancer_partie)
+bouton_jouer.grid(row=5, column=1)
 
 #Création du bouton quitter
-jouer = Button(app_jeu, text = "Jouer", command = j.lancer_partie)
-jouer.grid(row=2, column=2)
-
-#Création du bouton quitter
-quitter = Button(app_jeu, text = "Quitter", command = app_jeu.destroy)
-quitter.grid(row=3, column=2)
+quitter = Button(app_jeu, fg="white", bg = "black", text = "Quitter", command = app_jeu.destroy)
+quitter.grid(row=9, column=2)
 
 """------------------------------------------------------------------------"""
 

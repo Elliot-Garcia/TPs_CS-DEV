@@ -30,12 +30,14 @@ class jeu:
         self.tps_dernier_tire = 0 #Initialisation de son cooldown
         
         self.niveau = 0
-        self.score = IntVar()
         
+        self.score = IntVar()
         self.score.set(0)
+        self.argent = IntVar()
+        self.argent.set(0)
         
 
-    def lancer_partie(self):
+    def lancer_niveau(self):
         if len(self.groupe_ennemis) == 0:
             self.niveau += 1
             
