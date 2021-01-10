@@ -6,6 +6,7 @@ Header:
     Par Elliot GARCIA (Gr C)
 """
 
+from tkinter import PhotoImage
 
 class projectile:
     
@@ -19,44 +20,67 @@ class projectile:
         self.X = tireur.X
         self.Y = tireur.Y
         
-        self.camp = tireur.camp
+        self.score = 0
+        self.argent = 0
+        self.status = "projectile"
         
-        # if self.camp == "gentil":
-        #     self.jeu.groupe_projectile_gentil.append(self)
-        # if self.camp == "mechant":
-        #     self.jeu.groupe_projectile_mechant.append(self)
+        self.camp = tireur.camp
+        self.vivant = True
         
         self.direction = tireur.direction_tire
-               
+        
         if self.direction == 'N':
-            self.tire = self.canvas.create_rectangle(self.X-2,self.Y-5,self.X+2,self.Y-25,fill="yellow")
+            self.img_projectile = PhotoImage(file = "data/image/projectile_heros.gif")
+            self.canvas_propre = self.canvas.create_image(self.X, self.Y-5, image = self.img_projectile)
+            
         elif self.direction == "S":
-            self.tire = self.canvas.create_rectangle(self.X-2,self.Y+5,self.X+2,self.Y+25,fill="red")
+            self.img_projectile = PhotoImage(file = "data/image/projectile_mechant.gif")
+            self.canvas_propre = self.canvas.create_image(self.X, self.Y-5, image = self.img_projectile)
     
+    
+        if self.camp == "mechant":
+            jeu.groupe_mechants.append(self)
+                
     
     def deplacement_projectile(self):
         
-        if self.direction == "N":
-            dy = int(-5)
-            dx = 0
+        if self.vivant:
         
-        elif self.direction == "S":
-            dy = int(5)
-            dx = 0
-
-        if self.Y > 10 and self.Y < 550:
-            self.canvas.move(self.tire,dx,dy)
-            self.Y += dy
-            self.Y += dx            
-            self.app_jeu.after(20,self.deplacement_projectile)
+            if self.direction == "N":
+                dy = int(-5)
+                dx = 0
+            
+            elif self.direction == "S":
+                dy = int(5)
+                dx = 0
     
-        self.collision(self.jeu)
+            if self.Y > 10 and self.Y < 550:
+                self.canvas.move(self.canvas_propre,dx,dy)
+                self.Y += dy
+                self.Y += dx            
+                self.app_jeu.after(20,self.deplacement_projectile)
+            
+            else:
+                self.vivant = False
+                
+                if self.camp == "mechant":
+                    self.jeu.groupe_mechants.remove(self)
+                
+        
+            self.collision()
     
     
-    def collision(self, jeu):
-        en_collision = self.canvas.find_overlapping(self.X-2,self.Y-5,self.X+2,self.Y-25)
-        if len(en_collision)>1:
-            jeu.tuer(self, self.camp, en_collision[0:len(en_collision)-1])
+    def collision(self):
+        
+        if self.vivant:
+            
+            if self.direction == 'N':
+                en_collision = self.canvas.find_overlapping(self.X-3,self.Y-5,self.X+3,self.Y-15)
+            else: en_collision = self.canvas.find_overlapping(self.X-3,self.Y+5,self.X+3,self.Y+15)
+            
+            if len(en_collision) > 2:
+                self.jeu.tuer(self, en_collision[1:len(en_collision)-1])
+                # 1er = canvas de fond, dernier = canvas_propre
     
     def __del__(self):
-        self.canvas.delete(self.app_jeu,self.tire)
+        self.canvas.delete(self.app_jeu,self.canvas_propre)
