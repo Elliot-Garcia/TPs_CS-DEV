@@ -5,6 +5,8 @@ Header:
     Objectif : Concevoir un jeu "Spaceinvader"
     Date de réalisation : 14/12/2020
     Par Elliot GARCIA (Gr C)
+    À Faire : (voir d'amélioration) Créer plus de niveau, ajouter des ennemis différents
+               et pourquoi pas un boss final avec un crédit de fin.
 """
 
 
@@ -21,7 +23,7 @@ import marchand as m
 ---------------------------------------------------------------------------"""       
 def lancer_partie():
     """
-    But : Lancer la partie en affichant le premier niveau et en enlevant le bouton "Commencer la partie"
+    But : Lancer la partie en affichant le premier niveau et en enlevant le bouton "Commencer la partie" et le bouton "Charger une partie"
     Entrée :
     Sortie :
     """
@@ -40,7 +42,7 @@ def liste_scores_et_joueur():
     """
     But : Trouver dans les dossiers de Sauvegardes tous les scores avec les pseudos
     Entrée :
-    Sortie : Liste de liste contenant les pseudos et les scores [[pseudo1, score1], [...], ...]
+    Sortie : Liste de liste contenant les pseudos et les scores trier du meilleur score au moins bon [[score1, pseudo1], [...], ...]
     """
     liste_scores = []
     
@@ -66,7 +68,7 @@ def liste_scores_et_joueur():
 ---------------------------------------------------------------------------"""       
 def clavier(event):
     """
-    But : Récupérer les touches du clavier entré par le joueur pour les traiter
+    But : Récupérer les touches du clavier entrées par le joueur pour les traiter
         dans la classe jeu.
     Entrée : event "appuyer sur une touche"
     Sortie :
@@ -82,6 +84,13 @@ entre_pseudo = "" #Initialisation de ce qui sera l'Entry pour le pseudo
 ---------------------------------------------------------------------------"""
 
 def sauvegarde():
+    """
+    But : Si le joueur choisi de Sauvegarder, récupère le pseudo choisi et va écrire
+        les informations du joueur dans un fichier .txt au nom de son pseudo dans
+        le dossier "sauvegardes" dans le data. Puis fermeture du jeu
+    Entrée :
+    Sortie :
+    """
     
     global entre_pseudo
     global pseudo
@@ -160,7 +169,6 @@ img_fond = PhotoImage(file = "data/image/bg_espace.gif")
 canvas_jeu.create_image(290, 290, image = img_fond)
 canvas_jeu.grid(row=1, column=1, rowspan=16,sticky="w")
 
-
 """------------------------------------------------------------------------"""
 
 
@@ -176,6 +184,14 @@ j = jeu.jeu(app_jeu, canvas_jeu)
 """Fonction de chargement d'une sauvegarde
 ---------------------------------------------------------------------------"""
 def chargement_sauv():
+    """
+    But : Ouvre une 'popup' de choix de dossier directement dans le dossier
+        sauvegarde pour faire choisir au joueur une sauvegarde à charger.
+        Puis chargement de la partie choisi en commençant par le menu marchand.
+    Entrée :
+    Sortie :
+    """
+    
     file = askopenfilename(title="Choisir une sauvegarde", 
                            initialdir = r"data/sauvegardes",
                            multiple = False,
@@ -248,6 +264,12 @@ quitter.grid(row=10, column=2)
 """Création des fonctions pour le menu
 ---------------------------------------------------------------------------"""
 def notice_jeu_controle():
+    """
+    But : Afficher la "popup" dans le menu "notice_jeu" contenant un label expliquant les contrôles du jeu
+    Entrée :
+    Sortie :
+    """
+    
     pop = Toplevel()
     pop.attributes("-topmost", True)
     pop.grab_set()
@@ -257,6 +279,12 @@ def notice_jeu_controle():
     Button(pop, text = "Ok!", padx = 20, command=pop.destroy).grid(row = 2, column = 2)
 
 def notice_jeu_heros():
+    """
+    But : Afficher la "popup" dans le menu "notice_jeu" contenant un label expliquant qui est votre avatar
+    Entrée :
+    Sortie :
+    """
+    
     pop = Toplevel()
     pop.attributes("-topmost", True)
     pop.grab_set()
@@ -266,6 +294,12 @@ def notice_jeu_heros():
     Button(pop, text = "Ok!", padx = 20, command=pop.destroy).grid(row = 2, column = 2)
 
 def notice_jeu_ennemis():
+    """
+    But : Afficher la "popup" dans le menu "notice_jeu" contenant un label expliquant les différents ennemis
+    Entrée :
+    Sortie :
+    """
+    
     pop = Toplevel()
     pop.attributes("-topmost", True)
     pop.grab_set()
@@ -275,6 +309,12 @@ def notice_jeu_ennemis():
     Button(pop, text = "Ok!", padx = 20, command=pop.destroy).grid(row = 2, column = 2)
 
 def notice_jeu_magasin():
+    """
+    But : Afficher la "popup" dans le menu "notice_jeu" contenant un label expliquant le magasin
+    Entrée :
+    Sortie :
+    """
+    
     pop = Toplevel()
     pop.attributes("-topmost", True)
     pop.grab_set()
@@ -284,6 +324,12 @@ def notice_jeu_magasin():
     Button(pop, text = "Ok!", padx = 20, command=pop.destroy).grid(row = 2, column = 2)
 
 def a_propos_space():
+    """
+    But : Afficher la "popup" dans le menu "à propos" contenant un label l'histoire de Space Invader
+    Entrée :
+    Sortie :
+    """
+    
     pop = Toplevel()
     pop.attributes("-topmost", True)
     pop.grab_set()
@@ -293,6 +339,12 @@ def a_propos_space():
     Button(pop, text = "Ok!", padx = 20, command=pop.destroy).grid(row = 2, column = 2)
 
 def a_propos_spicy():
+    """
+    But : Afficher la "popup" dans le menu "à propos" contenant un label l'histoire de Spicy industry
+    Entrée :
+    Sortie :
+    """
+    
     pop = Toplevel()
     pop.attributes("-topmost", True)
     pop.grab_set()
@@ -300,40 +352,48 @@ def a_propos_spicy():
     
     Label(pop, text="La spicy company !\n Nait d'une blague entre ami(e)s, cette entreprise a déjà à son actif un magnifique site web d'agence de voyage.\n L'entreprise (initialement composée de 3 patrons/employés) est malheureusement aujourd'hui scindée en trois groupes.\n Cependant elle continue de vous vendre du rêve et des expériences Spicyyy dans ce tout nouveau jeu : Spicy'nvader !!!", padx = 20, pady = 40).grid(row=1, column=1, columnspan=3)
     Button(pop, text = "Fantastique!", padx = 20, command=pop.destroy).grid(row = 2, column = 2)
-
+    
 """------------------------------------------------------------------------"""
 
 
 
 """Création des éléments du menu
 ---------------------------------------------------------------------------"""
-menu = Menu(app_jeu)
+menu_app = Menu(app_jeu)
 
 #Partie scores trier du meilleur au moins bon
-aff_liste_scores = Menu(menu, tearoff = 0)
+aff_liste_scores = Menu(menu_app, tearoff = 0)
 liste_scores = liste_scores_et_joueur()
 for i in range(len(liste_scores)):
     aff_liste_scores.add_command(label = liste_scores[i][1][0:-4] + " : " + str(liste_scores[i][0]))
 
 #Partie notice du jeu
-notice_jeu = Menu(menu, tearoff = 0)
+notice_jeu = Menu(menu_app, tearoff = 0)
 notice_jeu.add_command(label = "Les contrôles", command = notice_jeu_controle)
 notice_jeu.add_command(label = "Votre héros", command = notice_jeu_heros)
 notice_jeu.add_command(label = "Les ennemis", command = notice_jeu_ennemis)
 notice_jeu.add_command(label = "Le magasin", command = notice_jeu_magasin)
 
 #Partie à propos
-a_propos = Menu(menu, tearoff = 0)
+a_propos = Menu(menu_app, tearoff = 0)
 a_propos.add_command(label = "Space invader", command = a_propos_space)
 a_propos.add_command(label = "Spicy company", command = a_propos_spicy)
 
+#Partie skins
+skins = Menu(menu_app, tearoff = 0)
+skins.add_command(label = "Standard", command = j.skin1)
+skins.add_command(label = "Force VIOLETTE", command = j.skin2)
+skins.add_command(label = "Vegan", command = j.skin3)
+skins.add_command(label = "Non Binaire", command = j.skin4)
 
-menu.add_cascade(label = "Listes des scores", menu = aff_liste_scores)
-menu.add_cascade(label = "Notices du jeu", menu = notice_jeu)
-menu.add_cascade(label = "À propos", menu = a_propos)
+
+menu_app.add_cascade(label = "Listes des scores", menu = aff_liste_scores)
+menu_app.add_cascade(label = "Notices du jeu", menu = notice_jeu)
+menu_app.add_cascade(label = "À propos", menu = a_propos)
+menu_app.add_cascade(label = "Changer de skin", menu = skins)
 
 
-app_jeu.config(menu = menu)
+app_jeu.config(menu = menu_app)
 """------------------------------------------------------------------------"""
 
 

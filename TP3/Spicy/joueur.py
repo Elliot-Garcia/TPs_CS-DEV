@@ -9,8 +9,20 @@ Header:
 from tkinter import PhotoImage
 
 class joueur:
+    """
+    But : Créer une classe joueur servant définir l'avatar du joueur, à le créer,
+        à le déplacer et à l'animer lorsqu'il prend des dégâts.
+    """
     
+    """Initialisation de la classe
+    ------------------------------------------------------------------------"""
     def __init__(self, jeu):
+        """
+        But : Initialisation des élément de la classe joueur
+        Entrée : Les informations de la classe jeu (jeu)
+        Sortie :
+        """
+        
         self.jeu = jeu
         self.app_jeu = jeu.app_jeu
         self.canvas = jeu.canvas
@@ -28,32 +40,55 @@ class joueur:
         self.multiplicateur_ennemis = jeu.multiplicateur_ennemis
         self.multiplicateur_bonus = jeu.multiplicateur_bonus
         
-        #self.canvas_propre = self.canvas.create_rectangle(self.X-10, self.Y-10, self.X+10, self.Y+10, fill="yellow")
-        
-        self.img_joueur = PhotoImage(file = "data/image/heros.gif")
+        #Chargement image de dégats
         self.img_joueur_degats = PhotoImage(file = "data/image/heros_degats.gif")
+        
+        #Définition du skin du joueur
+        self.img_joueur = self.jeu.skin
         self.img_choisie = 0 #Sert dans la fonction dégats à changer d'image
         
         self.canvas_propre = self.canvas.create_image(self.X, self.Y, image = self.img_joueur)
+    
+    """---------------------------------------------------------------------"""
+    
+  
         
-        
-      
+    """Fonctions de contrôle, de prise de dégat et de mort du joueur
+    ------------------------------------------------------------------------"""
     def gauche(self):
+        """
+        But : Faire se déplacer l'item du joueur vers la gauche
+        Entrée : toutes les informations de la classe (self)
+        Sortie :
+        """
+        
         if self.X - self.rapidite >= 20:
             self.canvas.move(self.canvas_propre,int(-self.rapidite),0)
             self.X -= self.rapidite
 
     def droite(self):
+        """
+        But : Faire se déplacer l'item du joueur vers la droite
+        Entrée : toutes les informations de la classe (self)
+        Sortie :
+        """
+        
         if self.X + self.rapidite <= 560:
             self.canvas.move(self.canvas_propre,int(self.rapidite),0)
             self.X += self.rapidite
     
     def degats(self):
+        """
+        But : Animer l'avatar du joueur lorsqu'il se prend des dégats
+            (item du joueur clignote en rouge)
+        Entrée : toutes les informations de la classe (self)
+        Sortie :
+        """
         
-        if self.img_choisie <= 5:
+        if self.img_choisie <= 5: #Le joueur ne clignote que 3 fois
             
             images = [self.img_joueur_degats, self.img_joueur]
-            self.canvas.itemconfigure(self.canvas_propre, image = images[self.img_choisie%2])
+            self.canvas.itemconfigure(self.canvas_propre, image = images[self.img_choisie%2]) #Alternance entre l'image normale et l'image rouge de dégat
             self.img_choisie += 1
             self.app_jeu.after(500,self.degats)
             
@@ -61,4 +96,12 @@ class joueur:
             self.jeu.resurection_joueur()
     
     def __del__(self):
+        """
+        But : Supprimer l'item joueur à sa mort
+        Entrée : toutes les informations de la classe (self)
+        Sortie :
+        """
+        
         self.canvas.delete(self.app_jeu,self.canvas_propre)
+    
+    """---------------------------------------------------------------------"""

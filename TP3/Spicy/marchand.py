@@ -10,11 +10,29 @@ from tkinter import Frame, LabelFrame, Label, Button, StringVar, IntVar, PhotoIm
 
 
 class marchand:
+    """
+    But : Créer une classe marchand servant à contenir toutes les informations
+        propre au marchand et à mettre en place l'interface graphique de la boutique
+        ainsi que les fonctionnalité d'achat de celle-ci.
+    """
     
+    """Initialisation de la classe
+    ------------------------------------------------------------------------"""
     def __init__(self, jeu):
+        """
+        But : Initialisation des élément de la classe marchand
+        Entrée : La classe jeu (jeu)
+        Sortie :
+        """
+        
         self.jeu = jeu
         self.app_jeu = jeu.app_jeu
         self.canvas = jeu.canvas
+        
+        
+        
+        """Initialisation des variables de la boutique
+        --------------------------------------------------------------------"""
         
         self.up_cooldown = IntVar()
         self.up_cooldown.set(0)
@@ -39,6 +57,10 @@ class marchand:
         self.prix_up_multiplicateur_bonus = 2
         self.txt_up_multiplicateur_bonus = StringVar()
         self.txt_up_multiplicateur_bonus.set("Améliorer pour " + str(self.prix_up_multiplicateur_bonus) + " $€")
+        
+        """----------------------------------------------------------------"""
+        
+        
         
         """Création de la frame du marchand avec les achats
         -------------------------------------------------------------------"""
@@ -73,9 +95,22 @@ class marchand:
         
         #Bouton de validation et de retour au jeu
         Button(self.frame_marchand, fg="white", bg = "black", text = "Continuer la partie", command = jeu.lancer_niveau).place(x=400, y=500)
+        
         """----------------------------------------------------------------"""
+    """---------------------------------------------------------------------"""
     
+    
+    
+    """Fonctions mettants en place le système d'achat d'amélioration
+    ------------------------------------------------------------------------"""
     def amelioration_cooldown(self):
+        """
+        But : Actualiser le prix de l'amélioration "cooldown" ainsi que l'argent
+            restant au joueur après achat.
+            Puis actualisation de la valeur du "cooldown" dans la classe jeu
+        Entrée : toutes les informations de la classe (self)
+        Sortie :
+        """
         
         if self.jeu.argent >= self.prix_up_cooldown:
             
@@ -91,6 +126,13 @@ class marchand:
             self.up_cooldown.set(self.up_cooldown.get()+1)
     
     def amelioration_rapidite(self):
+        """
+        But : Actualiser le prix de l'amélioration "rapidité" ainsi que l'argent
+            restant au joueur après achat.
+            Puis actualisation de la valeur du "rapidité" dans la classe jeu
+        Entrée : toutes les informations de la classe (self)
+        Sortie :
+        """
         
         if self.jeu.argent >= self.prix_up_rapidite:
             
@@ -106,6 +148,14 @@ class marchand:
             self.up_rapidite.set(self.up_rapidite.get()+1)
     
     def amelioration_multiplicateur_ennemis(self):
+        """
+        But : Actualiser le prix de l'amélioration "multiplicateur ennemis"
+            ainsi que l'argent restant au joueur après achat.
+            Puis actualisation de la valeur du "multiplicateur ennemis" dans
+            la classe jeu.
+        Entrée : toutes les informations de la classe (self)
+        Sortie :
+        """
         
         if self.jeu.argent >= self.prix_up_multiplicateur_ennemis:
             
@@ -121,6 +171,14 @@ class marchand:
             self.up_multiplicateur_ennemis.set(self.up_multiplicateur_ennemis.get() + 1)
     
     def amelioration_multiplicateur_bonus(self):
+        """
+        But : Actualiser le prix de l'amélioration "multiplicateur ennemis"
+            ainsi que l'argent restant au joueur après achat.
+            Puis actualisation de la valeur du "multiplicateur ennemis" dans
+            la classe jeu.
+        Entrée : toutes les informations de la classe (self)
+        Sortie :
+        """
         
         if self.jeu.argent >= self.prix_up_multiplicateur_bonus:
             
@@ -134,3 +192,5 @@ class marchand:
             
             self.jeu.multiplicateur_bonus *= 1.03 #Amélioration de 3% du multiplicateur du joueur
             self.up_multiplicateur_bonus.set(self.up_multiplicateur_bonus.get() + 1)
+    
+    """---------------------------------------------------------------------"""

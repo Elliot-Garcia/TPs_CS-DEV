@@ -6,7 +6,7 @@ Header:
     Par Elliot GARCIA (Gr C)
 """
 
-from tkinter import IntVar, StringVar, Button, Label, Toplevel
+from tkinter import IntVar, StringVar, Button, Label, Toplevel, PhotoImage
 import random as rd
 import time as tps
 
@@ -19,9 +19,22 @@ import fonctions as fct
 
 
 class jeu:
+    """
+    But : Créer une classe jeu servant à rassembler toutes les autres classes 'enfant'
+        pour faire fonctionner le jeu
+        Contient toutes les fonctions mettant en jeu plusieurs classes 'enfant' en même
+        temps ou ajoutant des éléments propre au niveau en cours.
+    """
 
-    
+    """Initialisation de la classe
+    ------------------------------------------------------------------------"""
     def __init__(self, app_jeu, canvas):
+        """
+        But : Initialisation des élément de la classe jeu
+        Entrée : La fenêtre du jeu (app_jeu) et le canvas principal du jeu (canvas)
+        Sortie :
+        """
+    
         self.app_jeu = app_jeu
         self.canvas = canvas
         
@@ -29,15 +42,25 @@ class jeu:
         self.groupe_mechants = []
         self.groupe_ennemis = []
         
-        self.bonus = False
-        self.bonus_init = False
-        self.tire_ennemi_init = False
+        self.bonus = False #Présence d'un bonus
+        self.bonus_init = False #Est-ce que le bonus a été initialisé ?
+        self.tire_ennemi_init = False #Est-ce que le tire des ennemis a été initialisé
         
-        self.tps_dernier_tire = 0 #Initialisation de son cooldown
+        self.tps_dernier_tire = 0 #Initialisation du temps depuis le dernier tire
         
-        self.niveau = 1
+        self.niveau = 1 #Initialisation du niveau en cours
         
         """ Caractéristiques du joueur """
+        #Chargement des différents "skin"
+        self.choix_skin1 = PhotoImage(file = "data/image/heros1.gif")
+        self.choix_skin2 = PhotoImage(file = "data/image/heros2.gif")
+        self.choix_skin3 = PhotoImage(file = "data/image/heros3.gif")
+        self.choix_skin4 = PhotoImage(file = "data/image/heros4.gif")
+        
+        #Initialisation du skin du joueur
+        self.skin = self.choix_skin1
+        
+        #Initialisation des autres caractéristiques du joueur
         self.score = IntVar()
         self.score.set(0)
         self.txt_argent = StringVar()
@@ -60,8 +83,69 @@ class jeu:
         #Initialisation des états dans le jeu
         self.jouer = False
         self.victoire = False
+    
+    """---------------------------------------------------------------------"""
+    
+    
+    
+    """Fonctions de changement de skin
+    ------------------------------------------------------------------------"""
+    def skin1(self):
+        """
+        But : Mettre le skin 1 au joueur
+        Entrée : toutes les informations de la classe (self)
+        Sortie :
+        """
         
+        self.skin = self.choix_skin1
+        self.P.img_joueur = self.choix_skin1
+        self.P.canvas.itemconfigure(self.P.canvas_propre, image = self.skin)
+    
+    def skin2(self):
+        """
+        But : Mettre le skin 2 au joueur
+        Entrée : toutes les informations de la classe (self)
+        Sortie :
+        """
+        
+        self.skin = self.choix_skin2
+        self.P.img_joueur = self.choix_skin2
+        self.P.canvas.itemconfigure(self.P.canvas_propre, image = self.skin)
+    
+    def skin3(self):
+        """
+        But : Mettre le skin 3 au joueur
+        Entrée : toutes les informations de la classe (self)
+        Sortie :
+        """
+        
+        self.skin = self.choix_skin3
+        self.P.img_joueur = self.choix_skin3
+        self.P.canvas.itemconfigure(self.P.canvas_propre, image = self.skin)
+    
+    def skin4(self):
+        """
+        But : Mettre le skin 4 au joueur
+        Entrée : toutes les informations de la classe (self)
+        Sortie :
+        """
+        
+        self.skin = self.choix_skin4
+        self.P.img_joueur = self.choix_skin4
+        self.P.canvas.itemconfigure(self.P.canvas_propre, image = self.skin)
+    
+    """---------------------------------------------------------------------"""
+    
+    
+    
+    """Mise en place de tous les items et fonctionnalités du jeu
+    ------------------------------------------------------------------------"""
     def lancer_niveau(self):
+        """
+        But : Lancer la partie en générant un niveau, l'avatar du joueur et les ennemis
+        Entrée : toutes les informations de la classe (self)
+        Sortie :
+        """
         
         self.jouer = True #Le joueur joue
         self.victoire = False #Le joueur n'a pas encore gagné ce niveau
@@ -84,6 +168,13 @@ class jeu:
         self.nouveau_bonus()
             
     def controle_joueur(self, touche):
+        """
+        But : Faire agir l'avatar du joueur en fonction des touches entrer
+            (création des contrôles)
+        Entrée : toutes les informations de la classe (self),
+            la touche entrée par le joueur (touche)
+        Sortie :
+        """
         
         if self.jouer == True and self.P.vivant: #Le joueur a le contrôle de son avatar que lorsqu'il joue ou est vivant
             
@@ -102,6 +193,12 @@ class jeu:
                     tire.deplacement_projectile()
 
     def nouveau_bonus(self):
+        """
+        But : Faire apparaître un ennemi bonus dans le niveau après un temps
+            aléatoire compris entre 30 s et 60 min.
+        Entrée : toutes les informations de la classe (self)
+        Sortie :
+        """
         
         if self.bonus == False and self.jouer: #Pour n'avoir qu'un seul bonus à la fois et pas pendant qu'on est au magasin
             
@@ -118,6 +215,11 @@ class jeu:
                 
 
     def tire_ennemis(self):
+        """
+        But : Initialisation des élément de la classe jeu
+        Entrée : toutes les informations de la classe (self)
+        Sortie :
+        """
         
         nb_ennemis = len(self.groupe_ennemis)
         nouveau_tire = rd.randrange(1000,5000) #Tire toutes les 1 à 5 secondes
@@ -134,6 +236,14 @@ class jeu:
 
 
     def tuer(self, projectile, en_collision):
+        """
+        But : Récupération des collisions avec les projectiles et suppression
+            des éléments 'touchés' à condition qu'ils soient ennemi entre eux
+        Entrée : toutes les informations de la classe (self),
+            le projectile en collision (projectile),
+            la liste des items en collision avec le projectile (en_collision)
+        Sortie :
+        """
         
         camp_projectile = projectile.camp
         canvas_id = en_collision[0]
@@ -194,8 +304,20 @@ class jeu:
                         
                         break
     
+    """---------------------------------------------------------------------"""
     
+    
+    
+    """Mise en place des situations lié à la mort ou au fait que le joueur
+    soit touché.
+    ------------------------------------------------------------------------"""
     def joueur_touche(self):
+        """
+        But : Si le joueur est touché, calcul et actualisation du nombre de vie restante
+            avec lancement de l'animation "dégats"
+        Entrée : toutes les informations de la classe (self)
+        Sortie :
+        """
         
         if self.vie.get() == 0:
             self.vie.set(3)
@@ -208,10 +330,21 @@ class jeu:
     
     
     def resurection_joueur(self):
+        """
+        But : Faire réaparaitre le joueur après sa mort
+        Entrée : toutes les informations de la classe (self)
+        Sortie :
+        """
         
         self.P = j.joueur(self)
     
     def affichage_fin(self):
+        """
+        But : Réinitialiser tous les items dans le canvas jeu et afficher le magasin
+            avec une "popup" en fonction de si le joueur à gagner ou perdu
+        Entrée : toutes les informations de la classe (self)
+        Sortie :
+        """
         
         for mechant in self.groupe_mechants: mechant.vivant = False
         for gentil in self.groupe_gentils: gentil.vivant = False
@@ -238,3 +371,5 @@ class jeu:
         
         Button(fin, fg="white", bg = "black", text="D'accord !", padx = 10, pady = 10, command = fin.destroy).grid(row = 4, column = 2)
         self.app_jeu.wait_window(fin)
+    
+    """---------------------------------------------------------------------"""
