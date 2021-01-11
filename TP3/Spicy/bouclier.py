@@ -9,7 +9,12 @@ Header:
 from tkinter import PhotoImage
 
 class bouclier:
+    """
+    But : Créer une classe bouclier servant définir l'item bouclier, à le créer.
+    """
     
+    """Initialisation de la classe
+    ------------------------------------------------------------------------"""
     def __init__(self, X, Y, jeu):
         self.jeu = jeu
         self.app_jeu = jeu.app_jeu
@@ -24,5 +29,7 @@ class bouclier:
         self.canvas_propre = jeu.canvas.create_rectangle(self.X-10,self.Y-10,self.X+10,self.Y+10,fill="gray")
         self.vivant = True
         
+    """---------------------------------------------------------------------"""
+    
     def __del__(self):
         self.canvas.delete(self.app_jeu,self.canvas_propre)

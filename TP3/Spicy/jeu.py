@@ -56,7 +56,16 @@ class jeu:
         self.choix_skin2 = PhotoImage(file = "data/image/heros2.gif")
         self.choix_skin3 = PhotoImage(file = "data/image/heros3.gif")
         self.choix_skin4 = PhotoImage(file = "data/image/heros4.gif")
+        self.choix_skin5 = PhotoImage(file = "data/image/heros5.gif")
         
+        #Contrôle du joueur
+        self.gauche = StringVar()
+        self.gauche.set("Left")
+        self.droite = StringVar()
+        self.droite.set("Right")
+        self.tirer = StringVar()
+        self.tirer.set("space")
+
         #Initialisation du skin du joueur
         self.skin = self.choix_skin1
         
@@ -68,8 +77,8 @@ class jeu:
         self.argent_tot = self.argent
         self.txt_argent.set(str(self.argent) + " $€")
         
-        self.cooldown = 1
-        self.rapidite = 5
+        self.cooldown = 2
+        self.rapidite = 3
         self.multiplicateur_ennemis = 1
         self.multiplicateur_bonus = 1
         
@@ -133,6 +142,17 @@ class jeu:
         self.skin = self.choix_skin4
         self.P.img_joueur = self.choix_skin4
         self.P.canvas.itemconfigure(self.P.canvas_propre, image = self.skin)
+        
+    def skin5(self):
+        """
+        But : Mettre le skin 5 au joueur
+        Entrée : toutes les informations de la classe (self)
+        Sortie :
+        """
+        
+        self.skin = self.choix_skin5
+        self.P.img_joueur = self.choix_skin5
+        self.P.canvas.itemconfigure(self.P.canvas_propre, image = self.skin)
     
     """---------------------------------------------------------------------"""
     
@@ -180,13 +200,13 @@ class jeu:
             
             tps_entre_tires = tps.time() - self.tps_dernier_tire
             
-            if touche == "Left":
+            if touche == self.gauche.get():
                 self.P.gauche()
             
-            if touche == "Right":
+            elif touche == self.droite.get():
                 self.P.droite()
                 
-            if touche == "space":
+            elif touche == self.tirer.get():
                 if tps_entre_tires >= self.P.cooldown:
                     self.tps_dernier_tire = tps.time()
                     tire = p.projectile(self, self.P)

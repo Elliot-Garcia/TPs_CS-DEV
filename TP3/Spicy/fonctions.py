@@ -10,6 +10,11 @@ import ennemi as e
 import bouclier as b
 
 def lecture_niveau(num_niveau):
+    """
+    But : Lit le niveau en le transformant en liste
+    Entrée : Numéro du niveau à charger
+    Sortie : Liste des éléments du niveau
+    """
     f = open('data/niveaux/niveau'+str(num_niveau)+'.txt')
     L = []
     l = f.readline()
@@ -20,6 +25,11 @@ def lecture_niveau(num_niveau):
     return L
 
 def generation_niveau(liste_niveau, jeu):
+    """
+    But : Créer le niveau en faisant apparaitre les ennemis et boucliers à des coordonnées régulières.
+    Entrée : Liste des éléments du niveau, Les informations de la classe jeu (jeu)
+    Sortie :
+    """
     largeur = len(liste_niveau[0])
     hauteur = len(liste_niveau)
     

@@ -220,6 +220,75 @@ def chargement_sauv():
 """------------------------------------------------------------------------"""
 
 
+
+"""Création des éléments hors de la zone de jeu
+---------------------------------------------------------------------------"""
+def changer_droite(entry):
+    """
+    But : Changer la touche pour aller à droite
+    Entrée : touche pressé
+    Sortie :
+    """
+    
+    touche = entry
+    if touche != j.gauche and touche != j.tirer:
+        j.droite.set(touche)
+
+def changer_gauche(entry):
+    """
+    But : Changer la touche pour aller à gauche
+    Entrée : touche pressé
+    Sortie :
+    """
+    
+    touche = entry
+    if touche != j.droite and touche != j.tirer:
+        j.gauche.set(touche)
+    
+def changer_tirer(entry):
+    """
+    But : Changer la touche pour tirer
+    Entrée : touche pressé
+    Sortie :
+    """
+    
+    touche = entry
+    
+    if touche != j.gauche and touche != j.droite:
+        j.tirer.set(touche)
+    
+def changer_controle():
+    """
+    But : Permettre au joueur de changer les contrôles du jeu
+    Entrée :
+    Sortie :
+    """
+
+    
+    pop_controle = Toplevel()
+    pop_controle.attributes("-topmost", True)
+    pop_controle.grab_set()
+    pop_controle.transient(app_jeu)
+    
+    Label(pop_controle, font=50, text="Menu de changement des contrôles", padx = 20, pady = 40).grid(row=1, column=1, columnspan=3)
+    Label(pop_controle, text="Entrer la valeur souhaite pour le nouveau contrôle.", padx = 20, pady = 40).grid(row=2, column=1, columnspan=3)
+    entry_droite = Entry(pop_controle)
+    entry_droite.grid(row = 3, column = 2)
+    Button(pop_controle, text = "Valider la touche pour aller à droite", padx = 20, command = lambda : changer_droite(entry_droite.get())).grid(row = 4, column = 1)
+    Label(pop_controle, text="La touche est actuellement ", padx = 20, pady = 40).grid(row=5, column=1)
+    Label(pop_controle, font = 40, textvariable=j.droite, padx = 20, pady = 40).grid(row=6, column=1)
+    Button(pop_controle, text = "Valider la touche pour aller à gauche", padx = 20, command = lambda : changer_gauche(entry_droite.get())).grid(row = 4, column = 2)
+    Label(pop_controle, text="La touche est actuellement ", padx = 20, pady = 40).grid(row=5, column=2)
+    Label(pop_controle, font = 40, textvariable=j.gauche, padx = 20, pady = 40).grid(row=6, column=2)
+    Button(pop_controle, text = "Valider la touche pour tirer", padx = 20, command = lambda : changer_tirer(entry_droite.get())).grid(row = 4, column = 3)
+    Label(pop_controle, text="La touche est actuellement " + j.tirer.get(), padx = 20, pady = 40).grid(row=5, column=3)
+    Label(pop_controle, font = 40, textvariable=j.tirer, padx = 20, pady = 40).grid(row=6, column=3)
+    Button(pop_controle, text = "Terminé!", padx = 20, command = pop_controle.destroy).grid(row = 7, column = 2)
+    
+"""------------------------------------------------------------------------"""
+
+
+
 """Création des éléments hors de la zone de jeu
 ---------------------------------------------------------------------------"""
 #Création de la zone hors du jeu
@@ -275,8 +344,15 @@ def notice_jeu_controle():
     pop.grab_set()
     pop.transient(app_jeu)
     
-    Label(pop, text="Les contrôles du jeu sont :\n --> Droite : Pour aller à droite\n <-- Gauche : Pour aller à gauche\n [    ] Espace : Pour tirer", padx = 20, pady = 40).grid(row=1, column=1, columnspan=3)
-    Button(pop, text = "Ok!", padx = 20, command=pop.destroy).grid(row = 2, column = 2)
+    Label(pop, font=40, text="Les contrôles du jeu sont :", padx = 20, pady = 40).grid(row=1, column=1, columnspan=3)
+    Label(pop, font = 40, textvariable=j.droite).grid(row=2, column=1)
+    Label(pop, text=" : Pour aller à droite").grid(row=2, column=2)
+    Label(pop, font = 40, textvariable=j.gauche).grid(row=3, column=1)
+    Label(pop, text=" : Pour aller à gauche").grid(row=3, column=2)
+    Label(pop, font = 40, textvariable=j.tirer).grid(row=4, column=1)
+    Label(pop, text=" : Pour tirer").grid(row=4, column=2)
+    Button(pop, text = "Changer les contrôles", padx = 20, pady = 10, command = changer_controle).grid(row = 5, column = 1)
+    Button(pop, text = "Ok!", padx = 20, pady = 10, command = pop.destroy).grid(row = 5, column = 3)
 
 def notice_jeu_heros():
     """
@@ -385,6 +461,7 @@ skins.add_command(label = "Standard", command = j.skin1)
 skins.add_command(label = "Force VIOLETTE", command = j.skin2)
 skins.add_command(label = "Vegan", command = j.skin3)
 skins.add_command(label = "Non Binaire", command = j.skin4)
+skins.add_command(label = "Black panther", command = j.skin5)
 
 
 menu_app.add_cascade(label = "Listes des scores", menu = aff_liste_scores)
